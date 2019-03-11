@@ -18,13 +18,25 @@
     $hash = "d6f6gf345hhgr3etwer42ferg43s";
     $password = md5($password . $hash); // ф-ция для шифровки пароля
 
-    $user = 'root';
-    $password = 'root';
+    //$user = 'root';
+    //$password = 'root';
     $db = 'phpblog';
     $host = 'localhost'; // данные для локального сервера
 
-    $dsn = 'mysql:host='.$host.';dbname='.$db;
-    $pdo = new PDO($dsn, $user, $password);
+    /* Подключение к базе данных MySQL с помощью вызова драйвера */
+	$dsn = 'mysql:dbname=phpblog;host=127.0.0.1';
+	$user = 'falcon';
+	$password = '';
+
+	try {
+	    $pdo = new PDO($dsn, $user, $password);
+	} catch (PDOException $e) {
+	    echo 'Подключение не удалось: ' . $e->getMessage();
+	}
+
+	var_dump($pdo);
     $sql = 'INSERT INTO users(name, email, login, password) VALUES(?, ?, ?, ?)';
     $query = $pdo->prepare($sql);
+
+	var_dump($query);
     $query->execute([$username, $email, $login, $password]);
